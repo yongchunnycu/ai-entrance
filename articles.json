@@ -86,7 +86,7 @@
     "imageUrl": "https://news.lib.nycu.edu.tw/wp-content/uploads/2026/03/0330_封面.png",
     "shortSummary": "別只會用 Google Scholar！Semantic Scholar 透過 AI 提供 TLDR 摘要與影響力指標，幫你從「找文章」進階到「判讀文章重要性」。",
     "longSummary": "雖然 Google Scholar 是文獻檢索的常客，但其結果限制與書目品質常令研究者困擾。Semantic Scholar 作為強大的過渡工具，利用 AI 提供論文的「一句話重點 (TLDR)」與高度影響力引用數據。本文強調學習「文章外部資訊」的重要性，教你如何利用這座橋樑，從被動接收資訊轉向主動判讀文獻脈絡，最終導向圖書館專業資料庫的深度檢索。",
-    "topicCluster":  ["學術資源", "AI研究工具"],
+    "topicCluster":  "學術資源", "AI研究工具",
     "tags": ["Semantic Scholar", "Google Scholar", "文獻判讀", "AI摘要"],
     "audience": "正在進行文獻回顧的研究生、學術初學者",
     "display": true,
