@@ -12,7 +12,7 @@
   "articles": [
     {
       "id": "nycu-lib-2026-001",
-      "title": "如何批次查詢論文參考書目的正確性？學術寫作必備的校對技巧",
+      "title": "如何批次查詢論文參考書目的正確性？",
       "url": "https://news.lib.nycu.edu.tw/researches/%e5%a6%82%e4%bd%95%e6%89%b9%e6%ac%a1%e6%9f%a5%e8%a9%a2%e8%ab%96%e6%96%87%e5%8f%83%e8%80%83%e6%9b%b8%e7%9b%ae%e7%9a%84%e6%ad%a3%e7%a2%ba%e6%80%a7/",
   "postDate": "2026-04-15",
   "imageUrl": "https://news.lib.nycu.edu.tw/wp-content/uploads/2026/04/crossref.png",
@@ -46,7 +46,7 @@
     },
     {
     "id": "nycu-lib-2026-003",
-    "title": "Meet Zotero：從文獻蒐集到自動引用的研究神助攻",
+    "title": "Meet Zotero",
     "url": "https://news.lib.nycu.edu.tw/researches/meet-zotero/",
     "postDate": "2026-04-03",
     "imageUrl": "https://news.lib.nycu.edu.tw/wp-content/uploads/2026/04/zotero-4.png",
@@ -63,7 +63,7 @@
   },
   {
     "id": "nycu-lib-2026-004",
-    "title": "當 AI 遇上材料化學：研究生如何判讀「看起來很厲害」的論文？",
+    "title": "當 AI 遇上材料化學：研究生如何不被「看起來很厲害」的論文誤導？",
     "url": "https://news.lib.nycu.edu.tw/researches/%e7%95%b6-ai-%e9%81%87%e4%b8%8a%e6%9d%90%e6%96%99%e5%8c%96%e5%ad%b8%ef%bc%9a%e7%a0%94%e7%a9%b6%e7%94%9f%e5%a6%82%e4%bd%95%e4%b8%8d%e8%a2%ab%e3%80%8c%e7%9c%8b%e8%b5%b7%e4%be%86%e5%be%88%e5%8e%b2/",
     "postDate": "2026-04-01",
     "imageUrl": "https://news.lib.nycu.edu.tw/wp-content/uploads/2026/04/Gemini_Generated_Image_u9t6jju9t6jju9t6.png",
@@ -80,13 +80,13 @@
   },
   {
     "id": "nycu-lib-2026-005",
-    "title": "Google Scholar 之後，你還可以多走一步：認識 Semantic Scholar",
+    "title": "Google Scholar 之後，你可以多走一步：也來認識 Semantic Scholar",
     "url": "https://news.lib.nycu.edu.tw/researches/google-scholar/google-scholar-%e4%b9%8b%e5%be%8c%ef%bc%8c%e4%bd%a0%e5%8f%af%e4%bb%a5%e5%a4%9a%e8%b5%b0%e4%b8%80%e6%ad%a5%ef%bc%9a%e4%b9%9f%e4%be%86%e8%aa%8d%e8%ad%98-semantic-scholar/",
     "postDate": "2026-03-30",
     "imageUrl": "https://news.lib.nycu.edu.tw/wp-content/uploads/2026/03/0330_封面.png",
     "shortSummary": "別只會用 Google Scholar！Semantic Scholar 透過 AI 提供 TLDR 摘要與影響力指標，幫你從「找文章」進階到「判讀文章重要性」。",
     "longSummary": "雖然 Google Scholar 是文獻檢索的常客，但其結果限制與書目品質常令研究者困擾。Semantic Scholar 作為強大的過渡工具，利用 AI 提供論文的「一句話重點 (TLDR)」與高度影響力引用數據。本文強調學習「文章外部資訊」的重要性，教你如何利用這座橋樑，從被動接收資訊轉向主動判讀文獻脈絡，最終導向圖書館專業資料庫的深度檢索。",
-    "topicCluster": "學術資源",
+    "topicCluster":  ["學術資源", "AI研究工具"],
     "tags": ["Semantic Scholar", "Google Scholar", "文獻判讀", "AI摘要"],
     "audience": "正在進行文獻回顧的研究生、學術初學者",
     "display": true,
@@ -97,7 +97,7 @@
   },
   {
     "id": "nycu-lib-2026-006",
-    "title": "5 分鐘懂 ORCID 2030：引領學術身分識別的新未來",
+    "title": "5分鐘懂ORCID 2030新策略計畫藍圖",
     "url": "https://news.lib.nycu.edu.tw/researches/5%e5%88%86%e9%90%98%e6%87%82orcid-2030%e7%ad%96%e7%95%a5%e8%a8%88%e7%95%ab/",
     "postDate": "2026-03-20",
     "imageUrl": "https://news.lib.nycu.edu.tw/wp-content/uploads/2026/03/2026-03-20_175836.jpg",
