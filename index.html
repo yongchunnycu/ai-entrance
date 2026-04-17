@@ -7,73 +7,69 @@
   <title>NYCU 圖書館｜AI 學習資源導覽</title>
 
   <!--
-  ╔═══════════════════════════════════════════════════════════════════╗
-  ║  NYCU 圖書館 BLOG 文章彙整展示頁  v2.0                            ║
-  ║  色系：與 lib.nycu.edu.tw 官網一致（海軍藍 × 白底 × 橙色點綴）    ║
-  ║  新功能：A4 友善列印 PDF（尊重當前篩選狀態，保留 URL 連結）         ║
-  ╚═══════════════════════════════════════════════════════════════════╝
+  ╔═════════════════════════════════════════════════════════════════════╗
+  ║  NYCU 圖書館 BLOG 文章彙整展示頁  v3.0                              ║
+  ║  色系：對齊 lib.nycu.edu.tw（海軍藍 × 白底 × 橙色點綴）             ║
+  ║  v3.0 新功能：                                                       ║
+  ║    · topicCluster 支援字串或陣列，多分類以 hashtag chips 呈現         ║
+  ║    · audience 五種固定對象篩選列                                      ║
+  ║    · 分類 × 對象 × 搜尋三重篩選同時作用                               ║
+  ║    · 列印 PDF 保留全部篩選狀態                                        ║
+  ╚═════════════════════════════════════════════════════════════════════╝
   -->
 
-  <!-- 字型：Noto Serif TC（標題 / 知識感）+ Noto Sans TC（內文 / 易讀） -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     /* ══════════════════════════════════════════════════════════
-       §1  Design Tokens
-           色盤完全對齊 NYCU 圖書館官方網站 lib.nycu.edu.tw
-           主色：海軍藍 #1a3472  強調：橙色 #e8720c
+       §1  Design Tokens — NYCU 官方色系
        ══════════════════════════════════════════════════════════ */
     :root {
-      /* ── 主色系（NYCU 官方海軍藍） ── */
-      --c-navy:        #1a3472;   /* 頁首深藍、主要按鈕 */
-      --c-navy-dark:   #0e2254;   /* 頂部工具列深藍 */
-      --c-navy-mid:    #2952a3;   /* hover 狀態中藍 */
-      --c-navy-light:  #e8edf8;   /* 藍色淺底（tag 背景、hover tint） */
-      --c-navy-border: #c5d0e8;   /* 藍色邊框 */
+      --c-navy:          #1a3472;
+      --c-navy-dark:     #0e2254;
+      --c-navy-mid:      #2952a3;
+      --c-navy-light:    #e8edf8;
+      --c-navy-border:   #c5d0e8;
+      --c-orange:        #e8720c;
+      --c-orange-light:  #fdf0e6;
+      --c-bg:            #f5f6f8;
+      --c-surface:       #ffffff;
+      --c-text:          #1a1a2e;
+      --c-text-sub:      #4a5568;
+      --c-text-faint:    #8a96a8;
+      --c-border:        #dde3ef;
+      --c-overlay:       rgba(14,34,84,0.58);
 
-      /* ── 強調色（NYCU 橙） ── */
-      --c-orange:      #e8720c;   /* 精選標籤、CTA 強調 */
-      --c-orange-light:#fdf0e6;   /* 橙色淺底 */
+      /* 對象標籤獨立色系（與分類做視覺區隔）*/
+      --c-teal:          #0f766e;   /* 對象標籤主色（深青） */
+      --c-teal-light:    #e0f2f0;   /* 對象標籤底色 */
+      --c-teal-border:   #99d4cf;   /* 對象標籤邊框 */
+      --c-teal-mid:      #14a097;   /* 對象標籤 hover */
 
-      /* ── 中性色 ── */
-      --c-bg:          #f5f6f8;   /* 頁面背景（官網同款淡灰） */
-      --c-surface:     #ffffff;   /* 卡片、對話框 */
-      --c-text:        #1a1a2e;   /* 主文字（帶藍調的近黑） */
-      --c-text-sub:    #4a5568;   /* 次要文字 */
-      --c-text-faint:  #8a96a8;   /* 淡色（日期、說明） */
-      --c-border:      #dde3ef;   /* 一般邊框 */
+      --f-heading: 'Noto Serif TC','Georgia',serif;
+      --f-body:    'Noto Sans TC','PingFang TC','Microsoft JhengHei',sans-serif;
 
-      /* ── 疊加色 ── */
-      --c-overlay:     rgba(14, 34, 84, 0.58);  /* modal 遮罩（帶藍調） */
-
-      /* ── 字型 ── */
-      --f-heading: 'Noto Serif TC', 'Georgia', serif;
-      --f-body:    'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', sans-serif;
-
-      /* ── 圓角 ── */
       --r-sm:   4px;
       --r-md:   8px;
       --r-lg:  14px;
       --r-pill: 999px;
 
-      /* ── 陰影 ── */
-      --sh-card:   0 1px 8px rgba(26, 52, 114, 0.08);
-      --sh-hover:  0 6px 24px rgba(26, 52, 114, 0.16);
-      --sh-modal:  0 20px 60px rgba(14, 34, 84, 0.28);
+      --sh-card:  0 1px 8px rgba(26,52,114,.08);
+      --sh-hover: 0 6px 24px rgba(26,52,114,.16);
+      --sh-modal: 0 20px 60px rgba(14,34,84,.28);
 
-      /* ── 動畫 ── */
       --t-fast:  0.16s;
       --t-base:  0.24s;
-      --t-modal: 0.28s cubic-bezier(0.33, 1, 0.68, 1);
+      --t-modal: 0.28s cubic-bezier(0.33,1,0.68,1);
     }
 
     /* ══════════════════════════════════════════════════════════
        §2  Reset & 基礎
        ══════════════════════════════════════════════════════════ */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
     body {
       font-family: var(--f-body);
       background: var(--c-bg);
@@ -81,13 +77,13 @@
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
     }
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    button { cursor: pointer; border: none; background: none; font-family: inherit; }
-    body.no-scroll { overflow: hidden; }
+    img { display:block; max-width:100%; }
+    a { color:inherit; text-decoration:none; }
+    button { cursor:pointer; border:none; background:none; font-family:inherit; }
+    body.no-scroll { overflow:hidden; }
 
     /* ══════════════════════════════════════════════════════════
-       §3  頂部工具列（仿官網深藍頂bar）
+       §3  頂部深藍 Topbar
        ══════════════════════════════════════════════════════════ */
     .topbar {
       background: var(--c-navy-dark);
@@ -98,781 +94,483 @@
       gap: 20px;
     }
     .topbar-link {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.72);
-      letter-spacing: 0.04em;
-      transition: color var(--t-fast);
+      font-size:.72rem; color:rgba(255,255,255,.72);
+      letter-spacing:.04em; transition:color var(--t-fast);
     }
-    .topbar-link:hover { color: #fff; }
-    .topbar-divider {
-      width: 1px; height: 12px;
-      background: rgba(255,255,255,0.2);
-    }
+    .topbar-link:hover { color:#fff; }
+    .topbar-div { width:1px; height:12px; background:rgba(255,255,255,.2); }
 
     /* ══════════════════════════════════════════════════════════
-       §4  Header（仿官網白底 + 藍色 Logo 區）
+       §4  Header（白底，仿官網）
        ══════════════════════════════════════════════════════════ */
     .site-header {
-      background: #fff;
+      background:#fff;
       border-bottom: 3px solid var(--c-navy);
       padding: 0 24px;
     }
     .header-inner {
-      max-width: 1160px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 16px 0;
+      max-width:1160px; margin:0 auto;
+      display:flex; align-items:center;
+      justify-content:space-between; gap:16px; padding:16px 0;
     }
-    /* Logo 區 */
-    .logo-block {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-    /* 仿官網 NYCU 圖書館方形 Logo 圖示 */
+    .logo-block { display:flex; align-items:center; gap:12px; }
     .logo-icon {
-      width: 44px; height: 44px;
-      background: var(--c-navy);
-      border-radius: var(--r-sm);
-      display: flex; align-items: center; justify-content: center;
-      flex-shrink: 0;
+      width:44px; height:44px;
+      background:var(--c-navy); border-radius:var(--r-sm);
+      display:flex; align-items:center; justify-content:center; flex-shrink:0;
     }
-    .logo-icon svg { width: 28px; height: 28px; fill: #fff; }
-    .logo-text { line-height: 1.25; }
+    .logo-icon svg { width:28px; height:28px; fill:#fff; }
     .logo-zh {
-      font-family: var(--f-heading);
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--c-navy);
-      display: block;
+      font-family:var(--f-heading); font-size:1.05rem; font-weight:700;
+      color:var(--c-navy); display:block;
     }
-    .logo-en {
-      font-size: 0.65rem;
-      color: var(--c-text-faint);
-      letter-spacing: 0.04em;
-      display: block;
-    }
-    /* Header 右側：頁面說明 */
-    .header-desc {
-      text-align: right;
-      display: none;
-    }
-    @media (min-width: 640px) { .header-desc { display: block; } }
+    .logo-en { font-size:.65rem; color:var(--c-text-faint); letter-spacing:.04em; display:block; }
+    .header-desc { text-align:right; display:none; }
+    @media (min-width:640px) { .header-desc { display:block; } }
     .header-desc-title {
-      font-family: var(--f-heading);
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--c-navy);
-      line-height: 1.3;
+      font-family:var(--f-heading); font-size:1.1rem; font-weight:700;
+      color:var(--c-navy); line-height:1.3;
     }
-    .header-desc-sub {
-      font-size: 0.76rem;
-      color: var(--c-text-faint);
-      margin-top: 2px;
-    }
-
-    /* 手機版：標題橫跨 */
+    .header-desc-sub { font-size:.76rem; color:var(--c-text-faint); margin-top:2px; }
     .header-mobile-title {
-      background: var(--c-navy);
-      color: #fff;
-      text-align: center;
-      padding: 14px 20px;
-      font-family: var(--f-heading);
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.03em;
+      background:var(--c-navy); color:#fff;
+      text-align:center; padding:14px 20px;
+      font-family:var(--f-heading); font-size:1.05rem; font-weight:700;
     }
-    @media (min-width: 640px) { .header-mobile-title { display: none; } }
+    @media (min-width:640px) { .header-mobile-title { display:none; } }
 
     /* ══════════════════════════════════════════════════════════
-       §5  Toolbar（搜尋 + 篩選 + 列印 PDF 按鈕）
+       §5  Toolbar（搜尋 + 分類篩選 + 對象篩選 + 列印）
+
+       【佈局說明】
+         toolbar 分為兩個區域：
+         · .toolbar-top：搜尋框 + 重置 + 計數 + 列印（一列）
+         · .toolbar-filters：分類列 + 對象列（兩條 filter-row）
+         手機：全部 column 堆疊
+         桌機：toolbar-top 一橫列，filters 在下方分兩行
        ══════════════════════════════════════════════════════════ */
     .toolbar {
-      background: #fff;
-      border-bottom: 1px solid var(--c-border);
-      padding: 10px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    @media (min-width: 768px) {
-      .toolbar {
-        flex-direction: row;
-        align-items: center;
-        padding: 8px 24px;
-        gap: 12px;
-      }
+      background:#fff;
+      border-bottom:1px solid var(--c-border);
+      padding:10px 16px 8px;
+      position:sticky; top:0; z-index:200;
     }
 
-    /* ── 搜尋框 ── */
-    .search-wrap {
-      position: relative;
-      flex: 1;
-      max-width: 320px;
-      min-width: 160px;
+    /* ── 第一列：搜尋 + 控制項 ── */
+    .toolbar-top {
+      display:flex; align-items:center;
+      gap:8px; flex-wrap:wrap;
+      margin-bottom:8px;
     }
+    .search-wrap { position:relative; flex:1; max-width:300px; min-width:140px; }
     .search-icon {
-      position: absolute; left: 10px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--c-text-faint);
-      font-size: 0.85rem;
-      pointer-events: none;
+      position:absolute; left:10px; top:50%;
+      transform:translateY(-50%);
+      color:var(--c-text-faint); font-size:.85rem; pointer-events:none;
     }
     .search-input {
-      width: 100%;
-      padding: 7px 10px 7px 30px;
-      border: 1.5px solid var(--c-border);
-      border-radius: var(--r-pill);
-      font-size: 0.82rem;
-      font-family: var(--f-body);
-      color: var(--c-text);
-      background: var(--c-bg);
-      outline: none;
-      transition: border-color var(--t-base), box-shadow var(--t-base);
+      width:100%; padding:7px 10px 7px 30px;
+      border:1.5px solid var(--c-border); border-radius:var(--r-pill);
+      font-size:.82rem; font-family:var(--f-body); color:var(--c-text);
+      background:var(--c-bg); outline:none;
+      transition:border-color var(--t-base), box-shadow var(--t-base);
     }
-    .search-input::placeholder { color: var(--c-text-faint); }
+    .search-input::placeholder { color:var(--c-text-faint); }
     .search-input:focus {
-      border-color: var(--c-navy-mid);
-      box-shadow: 0 0 0 3px rgba(41, 82, 163, 0.18);
+      border-color:var(--c-navy-mid);
+      box-shadow:0 0 0 3px rgba(41,82,163,.18);
+    }
+    .btn-reset {
+      padding:5px 11px; border-radius:var(--r-pill);
+      border:1.5px solid var(--c-border); font-size:.74rem;
+      font-family:var(--f-body); color:var(--c-text-faint);
+      display:flex; align-items:center; gap:3px;
+      transition:all var(--t-fast); white-space:nowrap;
+    }
+    .btn-reset:hover { border-color:var(--c-navy-border); color:var(--c-navy); }
+    .toolbar-right { display:flex; align-items:center; gap:8px; margin-left:auto; flex-shrink:0; }
+    .count-badge { font-size:.76rem; color:var(--c-text-faint); white-space:nowrap; }
+    .count-badge strong { color:var(--c-navy); font-weight:600; }
+    .btn-print {
+      display:flex; align-items:center; gap:5px;
+      padding:6px 13px; background:var(--c-orange); color:#fff;
+      border-radius:var(--r-sm); font-size:.76rem; font-weight:500;
+      font-family:var(--f-body); transition:background var(--t-fast),transform var(--t-fast);
+      white-space:nowrap; flex-shrink:0;
+    }
+    .btn-print:hover { background:#c95e08; transform:translateY(-1px); }
+
+    /* ── 第二區：篩選列容器 ── */
+    .toolbar-filters {
+      display:flex; flex-direction:column; gap:6px;
     }
 
-    /* ── 篩選按鈕群 ── */
+    /* ── filter-row 通用樣式 ── */
     .filter-row {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-wrap: wrap;
-      flex: 1;
+      display:flex; align-items:center; gap:5px; flex-wrap:wrap;
     }
     .filter-label {
-      font-size: 0.72rem;
-      color: var(--c-text-faint);
-      white-space: nowrap;
-      font-weight: 500;
+      font-size:.72rem; font-weight:600;
+      color:var(--c-text-faint); white-space:nowrap; min-width:2.8em;
     }
+
+    /* ── 分類篩選按鈕（藍色系） ── */
     .filter-btn {
-      padding: 3px 11px;
-      border-radius: var(--r-pill);
-      border: 1.5px solid var(--c-navy-border);
-      font-size: 0.75rem;
-      font-family: var(--f-body);
-      color: var(--c-navy);
-      background: transparent;
-      transition: all var(--t-fast);
-      white-space: nowrap;
-      line-height: 1.7;
+      padding:3px 11px; border-radius:var(--r-pill);
+      border:1.5px solid var(--c-navy-border);
+      font-size:.74rem; font-family:var(--f-body);
+      color:var(--c-navy); background:transparent;
+      transition:all var(--t-fast); white-space:nowrap; line-height:1.7;
     }
-    .filter-btn:hover {
-      background: var(--c-navy-light);
-      border-color: var(--c-navy-mid);
-    }
+    .filter-btn:hover { background:var(--c-navy-light); border-color:var(--c-navy-mid); }
     .filter-btn[aria-pressed="true"] {
-      background: var(--c-navy);
-      border-color: var(--c-navy);
-      color: #fff;
-      font-weight: 500;
+      background:var(--c-navy); border-color:var(--c-navy); color:#fff; font-weight:500;
     }
 
-    /* ── 重置篩選按鈕 ── */
-    .btn-reset {
-      padding: 3px 10px;
-      border-radius: var(--r-pill);
-      border: 1.5px solid var(--c-border);
-      font-size: 0.72rem;
-      font-family: var(--f-body);
-      color: var(--c-text-faint);
-      background: transparent;
-      display: flex; align-items: center; gap: 3px;
-      transition: all var(--t-fast);
-      white-space: nowrap;
+    /* ── 對象篩選按鈕（青色系，視覺區隔） ── */
+    .audience-btn {
+      padding:3px 11px; border-radius:var(--r-pill);
+      border:1.5px solid var(--c-teal-border);
+      font-size:.74rem; font-family:var(--f-body);
+      color:var(--c-teal); background:transparent;
+      transition:all var(--t-fast); white-space:nowrap; line-height:1.7;
     }
-    .btn-reset:hover {
-      border-color: var(--c-navy-border);
-      color: var(--c-navy);
+    .audience-btn:hover { background:var(--c-teal-light); border-color:var(--c-teal-mid); }
+    .audience-btn[aria-pressed="true"] {
+      background:var(--c-teal); border-color:var(--c-teal); color:#fff; font-weight:500;
     }
 
-    /* ── 右側：計數 + 列印按鈕 ── */
-    .toolbar-right {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-left: auto;
-      flex-shrink: 0;
+    /* 篩選作用中提示（顯示有幾個條件） */
+    .filter-active-hint {
+      font-size:.7rem; color:var(--c-orange);
+      font-weight:600; white-space:nowrap; margin-left:4px;
     }
-    .count-badge {
-      font-size: 0.76rem;
-      color: var(--c-text-faint);
-      white-space: nowrap;
-    }
-    .count-badge strong { color: var(--c-navy); font-weight: 600; }
-
-    /* ── 列印 PDF 按鈕 ── */
-    .btn-print {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      padding: 6px 14px;
-      background: var(--c-orange);
-      color: #fff;
-      border-radius: var(--r-sm);
-      font-size: 0.78rem;
-      font-weight: 500;
-      font-family: var(--f-body);
-      transition: background var(--t-fast), transform var(--t-fast);
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .btn-print:hover {
-      background: #c95e08;
-      transform: translateY(-1px);
-    }
-    .btn-print-icon { font-size: 0.9rem; }
 
     /* ══════════════════════════════════════════════════════════
-       §6  主要內容 & 卡片格線（Mobile-first RWD）
+       §6  主要內容 & 卡片格線
        ══════════════════════════════════════════════════════════ */
-    .page-body {
-      max-width: 1160px;
-      margin: 0 auto;
-      padding: 28px 14px 64px;
-    }
-    @media (min-width: 640px)  { .page-body { padding: 32px 20px 72px; } }
-    @media (min-width: 1024px) { .page-body { padding: 36px 28px 80px; } }
+    .page-body { max-width:1160px; margin:0 auto; padding:28px 14px 64px; }
+    @media (min-width:640px)  { .page-body { padding:32px 20px 72px; } }
+    @media (min-width:1024px) { .page-body { padding:36px 28px 80px; } }
 
-    /* 格線：手機1欄 → 平板2欄 → 桌機3欄 */
-    .articles-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-    @media (min-width: 580px) {
-      .articles-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (min-width: 960px) {
-      .articles-grid { grid-template-columns: repeat(3, 1fr); gap: 22px; }
-    }
+    .articles-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+    @media (min-width:580px) { .articles-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (min-width:960px) { .articles-grid { grid-template-columns:repeat(3,1fr); gap:22px; } }
 
     /* ══════════════════════════════════════════════════════════
        §7  文章卡片
+
+       【卡片結構】
+         .card-img-wrap          ← 封面圖 16:9（badge-featured 在此）
+         .card-body
+           .card-date            ← 發表日期
+           .card-clusters-wrap   ← ★ 多分類 hashtag chips（新增）
+           .card-title           ← 標題（最多2行）
+           .card-summary         ← 摘要（最多3行）
+           .card-audience-chip   ← ★ 讀者對象小標籤（新增）
+         .card-footer            ← CTA
        ══════════════════════════════════════════════════════════ */
     .card {
-      background: var(--c-surface);
-      border: 1px solid var(--c-border);
-      border-radius: var(--r-lg);
-      overflow: hidden;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      box-shadow: var(--sh-card);
-      transition: transform var(--t-base), box-shadow var(--t-base),
-                  border-color var(--t-base);
-      opacity: 0;
-      transform: translateY(12px);
-      animation: fadeUp 0.4s ease forwards;
+      background:var(--c-surface);
+      border:1px solid var(--c-border); border-radius:var(--r-lg);
+      overflow:hidden; cursor:pointer;
+      display:flex; flex-direction:column;
+      box-shadow:var(--sh-card);
+      transition:transform var(--t-base), box-shadow var(--t-base), border-color var(--t-base);
+      opacity:0; transform:translateY(12px);
+      animation:fadeUp .4s ease forwards;
       animation-delay: var(--delay, 0ms);
     }
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--sh-hover);
-      border-color: var(--c-navy-border);
-    }
-    .card:focus-visible {
-      outline: 3px solid var(--c-orange);
-      outline-offset: 2px;
-    }
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .card:hover { transform:translateY(-4px); box-shadow:var(--sh-hover); border-color:var(--c-navy-border); }
+    .card:focus-visible { outline:3px solid var(--c-orange); outline-offset:2px; }
+    @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
 
     /* 封面圖 16:9 */
     .card-img-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      overflow: hidden;
-      background: var(--c-navy-light);
-      flex-shrink: 0;
+      position:relative; width:100%; aspect-ratio:16/9;
+      overflow:hidden; background:var(--c-navy-light); flex-shrink:0;
     }
-    .card-img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-    .card:hover .card-img { transform: scale(1.04); }
+    .card-img { width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+    .card:hover .card-img { transform:scale(1.04); }
 
-    /* 精選徽章（圖片左上） */
+    /* 精選徽章（左上） */
     .badge-featured {
-      position: absolute; top: 9px; left: 9px;
-      background: var(--c-orange);
-      color: #fff;
-      font-size: 0.66rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      padding: 2px 8px;
-      border-radius: var(--r-sm);
-    }
-    /* 分類標籤（圖片右下） */
-    .badge-cluster {
-      position: absolute; bottom: 7px; right: 7px;
-      background: rgba(14, 34, 84, 0.80);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      color: #fff;
-      font-size: 0.64rem;
-      padding: 2px 8px;
-      border-radius: var(--r-sm);
+      position:absolute; top:9px; left:9px;
+      background:var(--c-orange); color:#fff;
+      font-size:.66rem; font-weight:600; letter-spacing:.05em;
+      padding:2px 8px; border-radius:var(--r-sm);
     }
 
-    /* 卡片文字 */
+    /* ── 卡片文字區 ── */
     .card-body {
-      padding: 14px 16px 10px;
-      flex: 1;
-      display: flex; flex-direction: column; gap: 5px;
+      padding:14px 16px 8px; flex:1;
+      display:flex; flex-direction:column; gap:6px;
     }
-    .card-date {
-      font-size: 0.7rem;
-      color: var(--c-text-faint);
-      letter-spacing: 0.04em;
+    .card-date { font-size:.7rem; color:var(--c-text-faint); letter-spacing:.04em; }
+
+    /* ── ★ 多分類 hashtag chips（卡片內） ── */
+    .card-clusters-wrap {
+      display:flex; flex-wrap:wrap; gap:4px;
     }
+    .card-cluster-chip {
+      font-size:.68rem; font-weight:500;
+      color:var(--c-navy-mid);
+      background:var(--c-navy-light);
+      border:1px solid var(--c-navy-border);
+      padding:1px 8px; border-radius:var(--r-pill);
+      line-height:1.6; white-space:nowrap;
+    }
+
+    /* 標題 */
     .card-title {
-      font-family: var(--f-heading);
-      font-size: 0.95rem;
-      font-weight: 700;
-      line-height: 1.45;
-      color: var(--c-text);
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-family:var(--f-heading); font-size:.95rem; font-weight:700;
+      line-height:1.45; color:var(--c-text);
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
     }
+
+    /* 摘要 */
     .card-summary {
-      font-size: 0.82rem;
-      color: var(--c-text-sub);
-      line-height: 1.65;
-      flex: 1;
-      display: -webkit-box;
-      -webkit-line-clamp: 3;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+      font-size:.82rem; color:var(--c-text-sub); line-height:1.65; flex:1;
+      display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
     }
+
+    /* ── ★ 對象標籤（卡片內，青色系）── */
+    .card-audience-chip {
+      display:inline-flex; align-items:center; gap:3px;
+      font-size:.68rem; font-weight:500;
+      color:var(--c-teal);
+      background:var(--c-teal-light);
+      border:1px solid var(--c-teal-border);
+      padding:1px 9px; border-radius:var(--r-pill);
+      width:fit-content;
+    }
+    .card-audience-chip::before { content:'👤'; font-size:.6rem; }
+
     /* 卡片底部 */
-    .card-footer {
-      padding: 8px 16px 13px;
-      border-top: 1px solid var(--c-border);
-    }
+    .card-footer { padding:8px 16px 13px; border-top:1px solid var(--c-border); }
     .card-cta {
-      font-size: 0.76rem;
-      font-weight: 500;
-      color: var(--c-navy-mid);
-      display: flex; align-items: center; gap: 3px;
-      transition: gap var(--t-fast), color var(--t-fast);
+      font-size:.76rem; font-weight:500; color:var(--c-navy-mid);
+      display:flex; align-items:center; gap:3px;
+      transition:gap var(--t-fast), color var(--t-fast);
     }
-    .card:hover .card-cta { color: var(--c-orange); gap: 7px; }
+    .card:hover .card-cta { color:var(--c-orange); gap:7px; }
 
     /* ══════════════════════════════════════════════════════════
-       §8  狀態元件（Loading / Error / Empty）
+       §8  狀態元件
        ══════════════════════════════════════════════════════════ */
     .state-box {
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      min-height: 260px; padding: 48px 24px;
-      gap: 14px; text-align: center;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      min-height:260px; padding:48px 24px; gap:14px; text-align:center;
     }
-    .state-icon { font-size: 2.4rem; line-height: 1; }
-    .state-title {
-      font-family: var(--f-heading);
-      font-size: 1.05rem; font-weight: 600;
-      color: var(--c-navy);
-    }
-    .state-desc {
-      font-size: 0.875rem; color: var(--c-text-sub);
-      max-width: 340px; line-height: 1.65;
-    }
+    .state-icon { font-size:2.4rem; line-height:1; }
+    .state-title { font-family:var(--f-heading); font-size:1.05rem; font-weight:600; color:var(--c-navy); }
+    .state-desc { font-size:.875rem; color:var(--c-text-sub); max-width:340px; line-height:1.65; }
     .spinner {
-      width: 40px; height: 40px;
-      border: 3px solid var(--c-navy-light);
-      border-top-color: var(--c-navy);
-      border-radius: 50%;
-      animation: spin 0.85s linear infinite;
+      width:40px; height:40px;
+      border:3px solid var(--c-navy-light); border-top-color:var(--c-navy);
+      border-radius:50%; animation:spin .85s linear infinite;
     }
-    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes spin { to { transform:rotate(360deg); } }
     .btn-action {
-      margin-top: 4px; padding: 8px 22px;
-      background: var(--c-navy); color: #fff;
-      border-radius: var(--r-sm); font-size: 0.86rem;
-      font-family: var(--f-body); font-weight: 500;
-      transition: background var(--t-fast);
+      margin-top:4px; padding:8px 22px;
+      background:var(--c-navy); color:#fff; border-radius:var(--r-sm);
+      font-size:.86rem; font-family:var(--f-body); font-weight:500;
+      transition:background var(--t-fast);
     }
-    .btn-action:hover { background: var(--c-navy-mid); }
+    .btn-action:hover { background:var(--c-navy-mid); }
 
     /* ══════════════════════════════════════════════════════════
-       §9  Modal（文章詳情對話框）
-       手機：底部滑入  平板+：置中彈出
+       §9  Modal
+
+       【更新】modal-clusters-row 支援多個分類 badge 並排
        ══════════════════════════════════════════════════════════ */
     .modal-overlay {
-      position: fixed; inset: 0;
-      background: var(--c-overlay);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
-      z-index: 500;
-      display: flex; align-items: flex-end; justify-content: center;
-      opacity: 0; pointer-events: none;
-      transition: opacity var(--t-modal);
+      position:fixed; inset:0; background:var(--c-overlay);
+      backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px);
+      z-index:500; display:flex; align-items:flex-end; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity var(--t-modal);
     }
-    @media (min-width: 640px) {
-      .modal-overlay { align-items: center; padding: 24px; }
-    }
-    .modal-overlay.is-open { opacity: 1; pointer-events: auto; }
+    @media (min-width:640px) { .modal-overlay { align-items:center; padding:24px; } }
+    .modal-overlay.is-open { opacity:1; pointer-events:auto; }
 
     .modal-dialog {
-      background: var(--c-surface);
-      width: 100%; max-width: 660px;
-      border-radius: var(--r-lg) var(--r-lg) 0 0;
-      max-height: 90vh;
-      overflow-y: auto; overflow-x: hidden;
-      box-shadow: var(--sh-modal);
-      position: relative;
-      transform: translateY(32px);
-      transition: transform var(--t-modal);
+      background:var(--c-surface); width:100%; max-width:660px;
+      border-radius:var(--r-lg) var(--r-lg) 0 0;
+      max-height:90vh; overflow-y:auto; overflow-x:hidden;
+      box-shadow:var(--sh-modal); position:relative;
+      transform:translateY(32px); transition:transform var(--t-modal);
     }
-    @media (min-width: 640px) {
+    @media (min-width:640px) {
       .modal-dialog {
-        border-radius: var(--r-lg);
-        transform: translateY(14px) scale(0.97);
-        max-height: 86vh;
+        border-radius:var(--r-lg);
+        transform:translateY(14px) scale(.97);
+        max-height:86vh;
       }
     }
-    .modal-overlay.is-open .modal-dialog { transform: translateY(0) scale(1); }
+    .modal-overlay.is-open .modal-dialog { transform:translateY(0) scale(1); }
 
-    .modal-handle {
-      width: 32px; height: 4px;
-      background: var(--c-border); border-radius: 2px;
-      margin: 10px auto 0;
-    }
-    @media (min-width: 640px) { .modal-handle { display: none; } }
+    .modal-handle { width:32px; height:4px; background:var(--c-border); border-radius:2px; margin:10px auto 0; }
+    @media (min-width:640px) { .modal-handle { display:none; } }
 
     .btn-close {
-      position: absolute; top: 10px; right: 10px;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(4px);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.95rem; color: var(--c-text);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.14);
-      transition: background var(--t-fast), transform var(--t-fast);
-      z-index: 10; line-height: 1;
+      position:absolute; top:10px; right:10px;
+      width:32px; height:32px; border-radius:50%;
+      background:rgba(255,255,255,.92); backdrop-filter:blur(4px);
+      display:flex; align-items:center; justify-content:center;
+      font-size:.95rem; color:var(--c-text);
+      box-shadow:0 2px 8px rgba(0,0,0,.14);
+      transition:background var(--t-fast), transform var(--t-fast);
+      z-index:10; line-height:1;
     }
-    .btn-close:hover { background: #fff; transform: scale(1.1); }
+    .btn-close:hover { background:#fff; transform:scale(1.1); }
 
-    .modal-img-wrap {
-      width: 100%; aspect-ratio: 16 / 9;
-      overflow: hidden; background: var(--c-navy-light); flex-shrink: 0;
-    }
-    .modal-img { width: 100%; height: 100%; object-fit: cover; }
+    .modal-img-wrap { width:100%; aspect-ratio:16/9; overflow:hidden; background:var(--c-navy-light); }
+    .modal-img { width:100%; height:100%; object-fit:cover; }
+    .modal-header-bar { height:4px; background:linear-gradient(90deg,var(--c-navy),var(--c-navy-mid)); }
 
-    /* Modal 頂部藍色色帶（仿官網頁首accent） */
-    .modal-header-bar {
-      height: 4px;
-      background: linear-gradient(90deg, var(--c-navy) 0%, var(--c-navy-mid) 100%);
-    }
+    .modal-body { padding:18px 22px 30px; }
 
-    .modal-body { padding: 18px 22px 30px; }
-
+    /* Modal meta 列：日期 + 精選 + 多分類 badges */
     .modal-meta {
-      display: flex; align-items: center;
-      flex-wrap: wrap; gap: 7px; margin-bottom: 10px;
+      display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:10px;
     }
-    .modal-date { font-size: 0.72rem; color: var(--c-text-faint); }
+    .modal-date { font-size:.72rem; color:var(--c-text-faint); }
     .modal-feat-badge {
-      background: var(--c-orange-light); color: var(--c-orange);
-      font-size: 0.68rem; font-weight: 600;
-      padding: 2px 8px; border-radius: var(--r-sm); letter-spacing: 0.05em;
+      background:var(--c-orange-light); color:var(--c-orange);
+      font-size:.68rem; font-weight:600;
+      padding:2px 8px; border-radius:var(--r-sm); letter-spacing:.05em;
     }
-    .modal-cluster {
-      background: var(--c-navy-light); color: var(--c-navy);
-      font-size: 0.7rem; font-weight: 500;
-      padding: 2px 10px; border-radius: var(--r-pill);
-      border: 1px solid var(--c-navy-border);
+
+    /* ── ★ 多個分類 badge（modal 版，稍大一點） ── */
+    .modal-cluster-chip {
+      background:var(--c-navy-light); color:var(--c-navy);
+      font-size:.72rem; font-weight:500;
+      padding:2px 10px; border-radius:var(--r-pill);
+      border:1px solid var(--c-navy-border);
     }
+
+    /* ── ★ 對象 badge（modal 版，青色）── */
+    .modal-audience-chip {
+      background:var(--c-teal-light); color:var(--c-teal);
+      font-size:.72rem; font-weight:500;
+      padding:2px 10px; border-radius:var(--r-pill);
+      border:1px solid var(--c-teal-border);
+      display:inline-flex; align-items:center; gap:4px;
+    }
+
     .modal-title {
-      font-family: var(--f-heading);
-      font-size: clamp(1rem, 3.5vw, 1.25rem);
-      font-weight: 700; line-height: 1.42;
-      margin-bottom: 14px; color: var(--c-text);
+      font-family:var(--f-heading);
+      font-size:clamp(1rem,3.5vw,1.25rem); font-weight:700;
+      line-height:1.42; margin-bottom:14px; color:var(--c-text);
     }
     .section-label {
-      font-size: 0.65rem; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--c-text-faint); margin-bottom: 7px;
+      font-size:.65rem; font-weight:600; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--c-text-faint); margin-bottom:7px;
     }
     .modal-summary {
-      font-size: 0.875rem; line-height: 1.82;
-      color: var(--c-text-sub);
-      border-left: 3px solid var(--c-navy);
-      padding-left: 13px; margin-bottom: 16px;
+      font-size:.875rem; line-height:1.82; color:var(--c-text-sub);
+      border-left:3px solid var(--c-navy); padding-left:13px; margin-bottom:16px;
     }
-    .modal-audience {
-      font-size: 0.8rem; color: var(--c-text-sub);
-      margin-bottom: 16px; display: flex; align-items: center; gap: 5px;
-    }
-    .modal-audience strong { color: var(--c-navy); font-weight: 600; }
-    .tags-wrap { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 22px; }
+    .tags-wrap { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:22px; }
     .tag {
-      background: var(--c-navy-light); color: var(--c-navy);
-      font-size: 0.72rem; padding: 2px 10px;
-      border-radius: var(--r-pill); border: 1px solid var(--c-navy-border);
+      background:var(--c-navy-light); color:var(--c-navy);
+      font-size:.72rem; padding:2px 10px;
+      border-radius:var(--r-pill); border:1px solid var(--c-navy-border);
     }
     .btn-readmore {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: var(--c-navy); color: #fff;
-      padding: 9px 20px; border-radius: var(--r-sm);
-      font-size: 0.87rem; font-weight: 500; font-family: var(--f-body);
-      transition: background var(--t-fast), transform var(--t-fast);
+      display:inline-flex; align-items:center; gap:6px;
+      background:var(--c-navy); color:#fff;
+      padding:9px 20px; border-radius:var(--r-sm);
+      font-size:.87rem; font-weight:500; font-family:var(--f-body);
+      transition:background var(--t-fast), transform var(--t-fast);
     }
-    .btn-readmore:hover { background: var(--c-navy-mid); transform: translateX(2px); }
+    .btn-readmore:hover { background:var(--c-navy-mid); transform:translateX(2px); }
 
     /* ══════════════════════════════════════════════════════════
        §10  頁腳
        ══════════════════════════════════════════════════════════ */
     .site-footer {
-      background: var(--c-navy-dark);
-      color: rgba(255,255,255,0.62);
-      text-align: center;
-      padding: 28px 24px;
-      font-size: 0.75rem;
-      line-height: 2;
+      background:var(--c-navy-dark); color:rgba(255,255,255,.62);
+      text-align:center; padding:28px 24px;
+      font-size:.75rem; line-height:2;
     }
-    .site-footer a {
-      color: rgba(255,255,255,0.82);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .footer-logo {
-      font-family: var(--f-heading);
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.90);
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
+    .site-footer a { color:rgba(255,255,255,.82); text-decoration:underline; text-underline-offset:2px; }
+    .footer-logo { font-family:var(--f-heading); font-size:.9rem; color:rgba(255,255,255,.9); font-weight:600; margin-bottom:8px; }
 
     /* ══════════════════════════════════════════════════════════
-       §11  工具 CSS
-       ══════════════════════════════════════════════════════════ */
-    .hidden { display: none !important; }
-    .sr-only {
-      position: absolute; width:1px; height:1px;
-      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap;
-    }
-
-    /* ══════════════════════════════════════════════════════════
-       §12  @media print — A4 友善列印 PDF 樣式
-       ──────────────────────────────────────────────────────────
-
-       ★ 設計邏輯：
-         1. 隱藏所有 UI 元件（頭尾、toolbar、modal、按鈕）
-         2. 以 .print-articles-wrap 獨立容器承載列印內容
-         3. 每頁 2 欄，每張卡片固定高度，確保 A4 版面整齊
-         4. 每張卡片顯示：封面圖縮圖、標題、日期、摘要、URL 文字
-         5. URL 以 <a href> 標記，在支援 PDF 超連結的瀏覽器中可點擊
-         6. 圖片列印耗墨，改用更小的縮圖佈局
-         7. JS 在列印前動態把「當前篩選文章」寫入列印容器
+       §11  @media print — A4 友善列印 PDF
+             ★ 列印內容反映「當前三重篩選」結果
+             ★ 每張卡片保留可點擊 <a href> URL
        ══════════════════════════════════════════════════════════ */
     @media print {
-      /* 隱藏所有螢幕 UI */
-      .topbar,
-      .site-header,
-      .toolbar,
-      .modal-overlay,
-      .site-footer,
-      .articles-grid,
-      .state-box        { display: none !important; }
+      .topbar, .site-header, .toolbar,
+      .modal-overlay, .site-footer, .articles-grid, .state-box { display:none !important; }
 
-      /* 重設 body */
-      body {
-        background: #fff !important;
-        color: #000 !important;
-        font-size: 9pt;
-        margin: 0;
-      }
-      .page-body { padding: 0 !important; max-width: 100% !important; }
+      body { background:#fff !important; color:#000 !important; font-size:9pt; margin:0; }
+      .page-body { padding:0 !important; max-width:100% !important; }
+      .print-container { display:block !important; }
 
-      /* 顯示列印專用容器 */
-      .print-container { display: block !important; }
+      @page { size:A4 portrait; margin:12mm 14mm 14mm 14mm; }
 
-      /* A4 每頁 */
-      @page {
-        size: A4 portrait;
-        margin: 12mm 14mm 14mm 14mm;
-      }
-
-      /* 列印頁首 */
       .print-header {
-        border-bottom: 2pt solid #1a3472;
-        padding-bottom: 6pt;
-        margin-bottom: 12pt;
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
+        border-bottom:2pt solid #1a3472; padding-bottom:6pt; margin-bottom:12pt;
+        display:flex; align-items:flex-end; justify-content:space-between;
       }
-      .print-header-title {
-        font-family: var(--f-heading);
-        font-size: 13pt;
-        font-weight: 700;
-        color: #1a3472;
-        line-height: 1.3;
-      }
-      .print-header-meta {
-        font-size: 7.5pt;
-        color: #666;
-        text-align: right;
-        line-height: 1.6;
-      }
+      .print-header-title { font-family:var(--f-heading); font-size:13pt; font-weight:700; color:#1a3472; line-height:1.3; }
+      .print-header-meta { font-size:7.5pt; color:#666; text-align:right; line-height:1.6; }
+      .print-filter-info { font-size:7pt; color:#555; margin-top:3pt; }
 
-      /* 列印文章格線（2欄） */
-      .print-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10pt;
-        width: 100%;
-      }
+      .print-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10pt; width:100%; }
 
-      /* 單張列印卡片 */
       .print-card {
-        border: 1pt solid #c5d0e8;
-        border-radius: 4pt;
-        overflow: hidden;
-        page-break-inside: avoid;
-        break-inside: avoid;
-        background: #fff;
+        border:1pt solid #c5d0e8; border-radius:4pt;
+        overflow:hidden; page-break-inside:avoid; break-inside:avoid; background:#fff;
       }
-      /* 卡片頂部色帶（對應分類） */
-      .print-card-topbar {
-        height: 4pt;
-        background: #1a3472;
-      }
-      /* 封面圖 */
-      .print-card-img {
-        width: 100%;
-        height: 70pt;
-        object-fit: cover;
-        display: block;
-        background: #e8edf8;
-      }
-      /* 卡片內文 */
-      .print-card-body { padding: 6pt 8pt 7pt; }
-      /* 分類 + 精選 */
-      .print-card-meta {
-        display: flex;
-        align-items: center;
-        gap: 4pt;
-        margin-bottom: 4pt;
-        flex-wrap: wrap;
-      }
+      .print-card-topbar { height:4pt; background:#1a3472; }
+      .print-card-img { width:100%; height:65pt; object-fit:cover; display:block; background:#e8edf8; }
+      .print-card-body { padding:6pt 8pt 7pt; }
+      .print-card-meta { display:flex; align-items:center; gap:4pt; margin-bottom:4pt; flex-wrap:wrap; }
       .print-cluster {
-        font-size: 6pt;
-        color: #2952a3;
-        font-weight: 600;
-        letter-spacing: 0.05em;
-        background: #e8edf8;
-        padding: 1pt 5pt;
-        border-radius: 3pt;
+        font-size:6pt; color:#2952a3; font-weight:600; letter-spacing:.05em;
+        background:#e8edf8; padding:1pt 5pt; border-radius:3pt;
       }
-      .print-featured {
-        font-size: 6pt;
-        color: #e8720c;
-        font-weight: 600;
-        background: #fdf0e6;
-        padding: 1pt 5pt;
-        border-radius: 3pt;
+      .print-audience {
+        font-size:6pt; color:#0f766e; font-weight:600;
+        background:#e0f2f0; padding:1pt 5pt; border-radius:3pt;
       }
-      /* 標題 */
-      .print-card-title {
-        font-family: var(--f-heading);
-        font-size: 9pt;
-        font-weight: 700;
-        line-height: 1.4;
-        color: #1a1a2e;
-        margin-bottom: 3pt;
-        /* 最多3行 */
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      /* 日期 */
-      .print-card-date {
-        font-size: 6.5pt;
-        color: #8a96a8;
-        margin-bottom: 4pt;
-      }
-      /* 短摘要 */
-      .print-card-summary {
-        font-size: 7.5pt;
-        line-height: 1.6;
-        color: #4a5568;
-        margin-bottom: 5pt;
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-      /* URL（列印時顯示為可點擊超連結 + 顯示網址文字） */
-      .print-card-link {
-        display: block;
-        font-size: 6pt;
-        color: #1a3472;
-        word-break: break-all;
-        text-decoration: underline;
-        border-top: 0.5pt solid #dde3ef;
-        padding-top: 4pt;
-        margin-top: 3pt;
-      }
-      /* 列印頁尾 */
-      .print-footer {
-        margin-top: 10pt;
-        padding-top: 5pt;
-        border-top: 0.5pt solid #dde3ef;
-        font-size: 6.5pt;
-        color: #aaa;
-        text-align: center;
-      }
+      .print-featured { font-size:6pt; color:#e8720c; font-weight:600; background:#fdf0e6; padding:1pt 5pt; border-radius:3pt; }
+      .print-card-title { font-family:var(--f-heading); font-size:9pt; font-weight:700; line-height:1.4; color:#1a1a2e; margin-bottom:3pt; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+      .print-card-date { font-size:6.5pt; color:#8a96a8; margin-bottom:4pt; }
+      .print-card-summary { font-size:7.5pt; line-height:1.6; color:#4a5568; margin-bottom:5pt; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+      .print-card-link { display:block; font-size:6pt; color:#1a3472; word-break:break-all; text-decoration:underline; border-top:.5pt solid #dde3ef; padding-top:4pt; margin-top:3pt; }
+      .print-footer { margin-top:10pt; padding-top:5pt; border-top:.5pt solid #dde3ef; font-size:6.5pt; color:#aaa; text-align:center; }
     }
 
-    /* 螢幕上隱藏列印容器 */
-    .print-container { display: none; }
+    .print-container { display:none; }
 
+    /* ══════════════════════════════════════════════════════════
+       §12  工具
+       ══════════════════════════════════════════════════════════ */
+    .hidden { display:none !important; }
+    .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; }
   </style>
 </head>
 
 <body>
 
-  <!-- ══════════════════════════════════════
-       頂部深藍工具列（仿官網）
-       ══════════════════════════════════════ -->
+  <!-- ══ Topbar ══════════════════════════════════════════════════ -->
   <div class="topbar" aria-hidden="true">
     <a class="topbar-link" href="https://www.lib.nycu.edu.tw/" target="_blank" rel="noopener">圖書館首頁</a>
-    <div class="topbar-divider"></div>
+    <div class="topbar-div"></div>
     <a class="topbar-link" href="https://news.lib.nycu.edu.tw/" target="_blank" rel="noopener">BLOG 原站</a>
-    <div class="topbar-divider"></div>
+    <div class="topbar-div"></div>
     <a class="topbar-link" href="https://www.nycu.edu.tw/" target="_blank" rel="noopener">NYCU 首頁</a>
   </div>
 
-  <!-- ══════════════════════════════════════
-       Header（白底 + 藍色 Logo 區，仿官網）
-       ══════════════════════════════════════ -->
+  <!-- ══ Header ═════════════════════════════════════════════════ -->
   <header class="site-header" role="banner">
     <div class="header-inner">
-      <!-- Logo -->
       <a class="logo-block" href="https://www.lib.nycu.edu.tw/" target="_blank" rel="noopener" aria-label="前往圖書館首頁">
-        <!-- 簡化版 NYCU 圖書館方形圖示 -->
         <div class="logo-icon" aria-hidden="true">
           <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
             <rect x="3" y="4" width="4" height="20" rx="1"/>
@@ -888,70 +586,69 @@
           <span class="logo-en">National Yang Ming Chiao Tung University Library</span>
         </div>
       </a>
-      <!-- 桌機顯示：頁面說明 -->
       <div class="header-desc">
         <p class="header-desc-title">AI 學習資源導覽</p>
         <p class="header-desc-sub">為大學新生精選 AI 工具與學術資源文章</p>
       </div>
     </div>
   </header>
-
-  <!-- 手機版補充標題 -->
   <div class="header-mobile-title" aria-hidden="true">AI 學習資源導覽</div>
 
-  <!-- ══════════════════════════════════════
-       Toolbar（搜尋 + 篩選 + 列印 PDF）
-       ══════════════════════════════════════ -->
+  <!-- ══ Toolbar ════════════════════════════════════════════════
+       第一列：搜尋 + 重置 + 計數 + 列印
+       第二列：分類篩選（藍色）
+       第三列：對象篩選（青色）
+       ═══════════════════════════════════════════════════════════ -->
   <div class="toolbar" role="search" aria-label="搜尋與篩選">
 
-    <!-- 搜尋框 -->
-    <div class="search-wrap">
-      <span class="search-icon" aria-hidden="true">🔍</span>
-      <input
-        class="search-input"
-        id="search-input"
-        type="search"
-        placeholder="搜尋文章標題或關鍵字…"
-        aria-label="搜尋文章"
-        autocomplete="off"
-      />
-    </div>
-
-    <!-- 分類篩選按鈕（JS 動態生成） -->
-    <div class="filter-row" id="filter-row" role="group" aria-label="分類篩選">
-      <span class="filter-label">分類：</span>
-    </div>
-
-    <!-- 重置按鈕 -->
-    <button class="btn-reset" id="btn-reset" aria-label="重置所有篩選條件">
-      <span aria-hidden="true">✕</span> 重置篩選
-    </button>
-
-    <!-- 右側：計數 + 列印 -->
-    <div class="toolbar-right">
-      <p class="count-badge" id="count-badge" aria-live="polite" aria-atomic="true"></p>
-      <button class="btn-print" id="btn-print" aria-label="列印或儲存為 PDF">
-        <span class="btn-print-icon" aria-hidden="true">🖨️</span>
-        列印 PDF
+    <!-- 第一列：搜尋 + 重置 + 計數 + 列印 -->
+    <div class="toolbar-top">
+      <div class="search-wrap">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          class="search-input" id="search-input" type="search"
+          placeholder="搜尋文章標題或關鍵字…" aria-label="搜尋文章" autocomplete="off"
+        />
+      </div>
+      <button class="btn-reset" id="btn-reset" aria-label="重置所有篩選條件">
+        <span aria-hidden="true">✕</span> 重置篩選
       </button>
+      <div class="toolbar-right">
+        <p class="count-badge" id="count-badge" aria-live="polite" aria-atomic="true"></p>
+        <button class="btn-print" id="btn-print" aria-label="列印或儲存為 PDF">
+          <span aria-hidden="true">🖨️</span> 列印 PDF
+        </button>
+      </div>
     </div>
 
+    <!-- 第二、三列：分類 + 對象篩選 -->
+    <div class="toolbar-filters">
+
+      <!-- 分類篩選（藍色系）— JS 動態注入按鈕 -->
+      <div class="filter-row" id="filter-row-cluster" role="group" aria-label="依主題分類篩選">
+        <span class="filter-label">分類：</span>
+        <!-- filter-btn 由 buildClusterFilters() 動態插入 -->
+      </div>
+
+      <!-- 對象篩選（青色系）— 依 JSON _meta.audience_list 動態生成 -->
+      <div class="filter-row" id="filter-row-audience" role="group" aria-label="依讀者對象篩選">
+        <span class="filter-label">對象：</span>
+        <!-- audience-btn 由 buildAudienceFilters() 依 JSON _meta.audience_list 動態插入 -->
+      </div>
+
+    </div>
   </div>
 
 
-  <!-- ══════════════════════════════════════
-       主要內容
-       ══════════════════════════════════════ -->
+  <!-- ══ Main ════════════════════════════════════════════════════ -->
   <main class="page-body" role="main">
 
-    <!-- Loading -->
     <div class="state-box" id="state-loading" role="status" aria-live="polite">
       <div class="spinner" aria-hidden="true"></div>
       <p class="state-title">正在載入文章資料</p>
       <p class="state-desc">請稍候，系統正在讀取文章清單並建立導覽頁面。</p>
     </div>
 
-    <!-- Error -->
     <div class="state-box hidden" id="state-error" role="alert">
       <span class="state-icon" aria-hidden="true">⚠️</span>
       <p class="state-title">無法載入文章資料</p>
@@ -959,64 +656,40 @@
       <button class="btn-action" id="btn-retry">重新載入</button>
     </div>
 
-    <!-- Empty -->
     <div class="state-box hidden" id="state-empty">
       <span class="state-icon" aria-hidden="true">🔎</span>
       <p class="state-title">找不到符合條件的文章</p>
-      <p class="state-desc">可以嘗試切換分類、清除搜尋關鍵字，或重新載入最新資料。</p>
+      <p class="state-desc">可以嘗試切換分類、對象，或清除搜尋關鍵字。</p>
       <button class="btn-action" id="btn-reset-empty">重置所有篩選</button>
     </div>
 
-    <!-- 卡片格線 -->
-    <div
-      class="articles-grid hidden"
-      id="articles-grid"
-      role="list"
-      aria-label="文章列表"
-    ></div>
+    <div class="articles-grid hidden" id="articles-grid" role="list" aria-label="文章列表"></div>
 
-    <!-- ══ 列印專用容器（螢幕隱藏，列印才顯示）══
-         JS 在列印前動態填充當前篩選結果
-         ──────────────────────────────────────── -->
+    <!-- 列印專用容器（螢幕隱藏，@media print 才顯示） -->
     <div class="print-container" id="print-container" aria-hidden="true">
-
-      <!-- 列印頁首：標題 + 篩選狀態說明 -->
       <div class="print-header">
         <div>
           <div class="print-header-title">國立陽明交通大學圖書館｜AI 學習資源導覽</div>
-          <div style="font-size:7pt;color:#666;margin-top:2pt;" id="print-filter-desc">
-            <!-- JS 填入：目前篩選狀態 -->
-          </div>
+          <div class="print-filter-info" id="print-filter-desc"></div>
         </div>
-        <div class="print-header-meta" id="print-date-meta">
-          <!-- JS 填入：列印日期 -->
-        </div>
+        <div class="print-header-meta" id="print-date-meta"></div>
       </div>
-
-      <!-- 列印卡片格線（JS 動態填入） -->
       <div class="print-grid" id="print-grid"></div>
-
-      <!-- 列印頁尾 -->
       <div class="print-footer">
-        資料來源：國立陽明交通大學圖書館 BLOG（news.lib.nycu.edu.tw）｜
-        本頁面由圖書館數位服務組維護，僅供學術導覽使用。
+        資料來源：國立陽明交通大學圖書館 BLOG（news.lib.nycu.edu.tw）｜本頁面由圖書館數位服務組維護，僅供學術導覽使用。
       </div>
-
-    </div><!-- /.print-container -->
+    </div>
 
   </main>
 
 
-  <!-- ══════════════════════════════════════
-       Modal
-       ══════════════════════════════════════ -->
+  <!-- ══ Modal ════════════════════════════════════════════════════
+       modal-meta 區域現在渲染多個 .modal-cluster-chip
+       ═══════════════════════════════════════════════════════════ -->
   <div
-    class="modal-overlay"
-    id="modal-overlay"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="modal-title-el"
-    aria-hidden="true"
+    class="modal-overlay" id="modal-overlay"
+    role="dialog" aria-modal="true"
+    aria-labelledby="modal-title-el" aria-hidden="true"
   >
     <div class="modal-dialog" id="modal-dialog" tabindex="-1">
       <div class="modal-handle" aria-hidden="true"></div>
@@ -1024,20 +697,22 @@
       <div class="modal-img-wrap">
         <img class="modal-img" id="modal-img" src="" alt="" loading="lazy" />
       </div>
-      <!-- 頂部藍色色帶 -->
       <div class="modal-header-bar" aria-hidden="true"></div>
       <div class="modal-body">
-        <div class="modal-meta">
-          <time class="modal-date" id="modal-date"></time>
-          <span class="modal-feat-badge hidden" id="modal-feat">★ 精選文章</span>
-          <span class="modal-cluster" id="modal-cluster"></span>
+
+        <!-- meta 列：日期、精選、多分類、對象 -->
+        <div class="modal-meta" id="modal-meta">
+          <!-- JS 動態填充所有 meta chips -->
         </div>
+
         <h2 class="modal-title" id="modal-title-el"></h2>
+
         <p class="section-label">導讀摘要</p>
         <p class="modal-summary" id="modal-summary"></p>
-        <p class="modal-audience" id="modal-audience"></p>
+
         <p class="section-label">相關主題</p>
         <div class="tags-wrap" id="modal-tags"></div>
+
         <a class="btn-readmore" id="modal-link" href="#" target="_blank" rel="noopener noreferrer">
           前往閱讀全文 <span aria-hidden="true">↗</span>
         </a>
@@ -1046,9 +721,7 @@
   </div>
 
 
-  <!-- ══════════════════════════════════════
-       Footer（深藍底，仿官網）
-       ══════════════════════════════════════ -->
+  <!-- ══ Footer ══════════════════════════════════════════════════ -->
   <footer class="site-footer" role="contentinfo">
     <p class="footer-logo">📚 NYCU Library Blog Portal</p>
     <p>資料來源為國立陽明交通大學圖書館 BLOG，頁面僅作學習導覽與資源入口使用。</p>
@@ -1060,115 +733,208 @@
   </footer>
 
 
-  <!-- ════════════════════════════════════════════════════════════
-       JavaScript 主程式
+  <!-- ══════════════════════════════════════════════════════════════
+       JavaScript 主程式  v3.0
 
-       【程式結構】
-         CONFIG         — 全域設定（DATA_URL、FALLBACK_IMG、分類順序）
-         State          — 應用程式狀態
-         DOM            — DOM 元素快取
-         Utils          — 工具函式（日期格式化、HTML跳脫）
-         showState()    — 切換 loading / error / empty / grid 顯示
-         loadData()     — fetch JSON，初始化資料
-         buildFilters() — 動態生成分類篩選按鈕
-         applyFilters() — 套用分類 + 搜尋，更新畫面
-         renderGrid()   — 渲染卡片格線
-         createCard()   — 建立單張卡片 DOM 元素
-         openModal()    — 開啟文章詳情 Modal
-         closeModal()   — 關閉 Modal
-         buildPrint()   — 建立列印 DOM（依當前篩選結果）
-         triggerPrint() — 觸發瀏覽器列印（window.print）
-         Event bindings — 事件監聽綁定
-         App init       — 啟動
-       ════════════════════════════════════════════════════════════ -->
+       【程式架構索引】
+         CONFIG            — 全域設定（DATA_URL / FALLBACK_IMG）
+         State             — 應用程式狀態（含由 JSON _meta 注入的 clusterOrder / audienceList）
+         DOM               — DOM 元素快取
+         Utils             — 工具函式（fmtDate / esc / setHidden / normalizeStringList / getClusters / getAudience / getTags）
+         showState()       — 切換 loading/error/empty/grid 顯示
+         loadData()        — fetch JSON
+         buildClusterFilters() — 依 JSON _meta.topic_clusters 建立「分類」篩選按鈕（藍色）
+         buildAudienceFilters()— 依 JSON _meta.audience_list 生成「對象」篩選按鈕（青色）
+         applyFilters()    — ★ 三重篩選（分類 × 對象 × 搜尋）
+         renderGrid()      — 渲染卡片格線
+         createCard()      — 建立單張卡片（含多分類 chips + 對象 chip）
+         openModal()       — 開啟 Modal（含多分類 badges + 對象 badge）
+         closeModal()      — 關閉 Modal
+         buildPrint()      — 建立列印 DOM（反映三重篩選）
+         triggerPrint()    — window.print()
+         resetFilters()    — 重置三重篩選
+         事件綁定
+         啟動
+       ══════════════════════════════════════════════════════════════ -->
   <script>
     'use strict';
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        ★ CONFIG
-       未來只需修改這個物件，不必動其他程式碼。
-
-       DATA_URL 建議：
-         本機測試：      'articles.json'
-         GitHub Raw：    'https://raw.githubusercontent.com/帳號/repo/main/articles.json'
-         jsDelivr CDN：  'https://cdn.jsdelivr.net/gh/帳號/repo@main/articles.json'
-                         （CDN 有快取加速，推薦正式環境）
-       ───────────────────────────────────────────── */
+         DATA_URL 建議：
+           本機：        './data/articles.json'
+           GitHub Raw：  'https://raw.githubusercontent.com/帳號/repo/main/data/articles.json'
+           jsDelivr：    'https://cdn.jsdelivr.net/gh/帳號/repo@main/data/articles.json'
+       ──────────────────────────────────────────────── */
     const CONFIG = {
-      DATA_URL: './articles.json',
+      DATA_URL: './data/articles.json',
       FALLBACK_IMG: 'https://placehold.co/800x450/e8edf8/1a3472?text=NYCU+Library',
-      CLUSTER_ORDER: ['AI研究工具', '學術資源', '研究方法', '圖書館服務', '其他'],
     };
 
-    /* ─────────────────────────────────────────────
-       State（應用程式狀態）
-       ───────────────────────────────────────────── */
+    /* ────────────────────────────────────────────────
+       State
+       ──────────────────────────────────────────────── */
     const State = {
-      allArticles:      [],      // display=true 且已排序的全部文章
-      filteredArticles: [],      // 篩選後文章（傳給列印功能）
-      activeCluster:    '全部',
-      searchKeyword:    '',
+      allArticles:      [],     // display=true 且已排序
+      filteredArticles: [],     // 三重篩選後
+      activeCluster:    '全部', // 當前分類篩選（'全部' 或某個 cluster）
+      activeAudience:   '全部', // 當前對象篩選（'全部' 或某個 audience）
+      searchKeyword:    '',     // 當前搜尋關鍵字
+      clusterOrder:     [],     // 由 JSON _meta.topic_clusters 注入並正規化後的清單
+      audienceList:     [],     // 由 JSON _meta.audience_list 注入並正規化後的清單
     };
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        DOM 快取
-       ───────────────────────────────────────────── */
+       ──────────────────────────────────────────────── */
     const DOM = {
-      searchInput:   document.getElementById('search-input'),
-      filterRow:     document.getElementById('filter-row'),
-      btnReset:      document.getElementById('btn-reset'),
-      btnResetEmpty: document.getElementById('btn-reset-empty'),
-      countBadge:    document.getElementById('count-badge'),
-      btnPrint:      document.getElementById('btn-print'),
-      articlesGrid:  document.getElementById('articles-grid'),
-      stateLoading:  document.getElementById('state-loading'),
-      stateError:    document.getElementById('state-error'),
-      stateEmpty:    document.getElementById('state-empty'),
-      errorDetail:   document.getElementById('error-detail'),
-      btnRetry:      document.getElementById('btn-retry'),
-      printContainer:document.getElementById('print-container'),
-      printGrid:     document.getElementById('print-grid'),
-      printFilterDesc:document.getElementById('print-filter-desc'),
-      printDateMeta: document.getElementById('print-date-meta'),
-      modalOverlay:  document.getElementById('modal-overlay'),
-      modalDialog:   document.getElementById('modal-dialog'),
-      btnClose:      document.getElementById('btn-close'),
-      modalImg:      document.getElementById('modal-img'),
-      modalDate:     document.getElementById('modal-date'),
-      modalFeat:     document.getElementById('modal-feat'),
-      modalCluster:  document.getElementById('modal-cluster'),
-      modalTitle:    document.getElementById('modal-title-el'),
-      modalSummary:  document.getElementById('modal-summary'),
-      modalAudience: document.getElementById('modal-audience'),
-      modalTags:     document.getElementById('modal-tags'),
-      modalLink:     document.getElementById('modal-link'),
+      searchInput:     document.getElementById('search-input'),
+      filterRowCluster:document.getElementById('filter-row-cluster'),
+      filterRowAud:    document.getElementById('filter-row-audience'),
+      btnReset:        document.getElementById('btn-reset'),
+      btnResetEmpty:   document.getElementById('btn-reset-empty'),
+      countBadge:      document.getElementById('count-badge'),
+      btnPrint:        document.getElementById('btn-print'),
+      articlesGrid:    document.getElementById('articles-grid'),
+      stateLoading:    document.getElementById('state-loading'),
+      stateError:      document.getElementById('state-error'),
+      stateEmpty:      document.getElementById('state-empty'),
+      errorDetail:     document.getElementById('error-detail'),
+      btnRetry:        document.getElementById('btn-retry'),
+      printContainer:  document.getElementById('print-container'),
+      printGrid:       document.getElementById('print-grid'),
+      printFilterDesc: document.getElementById('print-filter-desc'),
+      printDateMeta:   document.getElementById('print-date-meta'),
+      modalOverlay:    document.getElementById('modal-overlay'),
+      modalDialog:     document.getElementById('modal-dialog'),
+      btnClose:        document.getElementById('btn-close'),
+      modalImg:        document.getElementById('modal-img'),
+      modalMeta:       document.getElementById('modal-meta'),
+      modalTitle:      document.getElementById('modal-title-el'),
+      modalSummary:    document.getElementById('modal-summary'),
+      modalTags:       document.getElementById('modal-tags'),
+      modalLink:       document.getElementById('modal-link'),
     };
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        Utils
-       ───────────────────────────────────────────── */
+       ──────────────────────────────────────────────── */
 
     /** YYYY-MM-DD → YYYY 年 M 月 D 日 */
     function fmtDate(s) {
       if (!s) return '日期不詳';
-      const [y, m, d] = s.split('-');
-      return `${y} 年 ${parseInt(m)} 月 ${parseInt(d)} 日`;
+      const parts = String(s).split('-');
+      if (parts.length < 3) return String(s);
+      const [y, m, d] = parts;
+      const year  = String(y).trim();
+      const month = parseInt(m, 10);
+      const day   = parseInt(d, 10);
+      if (!year || Number.isNaN(month) || Number.isNaN(day)) return String(s);
+      return `${year} 年 ${month} 月 ${day} 日`;
     }
 
     /** HTML 跳脫（XSS 防護） */
     function esc(v) {
       if (v == null) return '';
       return String(v)
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
     /** 切換 hidden class */
     function setHidden(el, hide) { el.classList.toggle('hidden', hide); }
 
-    /* ─────────────────────────────────────────────
+    /** 將輸入正規化為去空白、去重後的字串陣列（保留原順序） */
+    function normalizeStringList(input) {
+      const arr = Array.isArray(input) ? input : [input];
+      const seen = new Set();
+      return arr
+        .map(v => typeof v === 'string' ? v.trim() : '')
+        .filter(Boolean)
+        .filter(v => {
+          if (seen.has(v)) return false;
+          seen.add(v);
+          return true;
+        });
+    }
+
+    /**
+     * ★ getClusters(article) — 統一取得分類陣列
+     *   topicCluster 可能是：
+     *     · string   → ["AI研究工具"]
+     *     · string[] → 正規化後陣列
+     *     · undefined/null/空值 → ["其他"]
+     */
+    function getClusters(article) {
+      const raw = article ? article.topicCluster : null;
+      const list = normalizeStringList(Array.isArray(raw) ? raw : [raw]);
+      return list.length > 0 ? list : ['其他'];
+    }
+
+    /**
+     * ★ getAudience(article) — 取得對象字串
+     *   audience 為單一字串，若為空則回傳 '全體讀者'
+     */
+    function getAudience(article) {
+      const audience = article && typeof article.audience === 'string'
+        ? article.audience.trim()
+        : '';
+      return audience || '全體讀者';
+    }
+
+    /** 取得文章 tags（保證回傳字串陣列） */
+    function getTags(article) {
+      return normalizeStringList(Array.isArray(article?.tags) ? article.tags : []);
+    }
+
+    /** 取得資料中實際使用的分類清單 */
+    function getUsedClusters(articles = State.allArticles) {
+      return [...new Set(articles.flatMap(a => getClusters(a)))];
+    }
+
+    /** 取得資料中實際使用的對象清單 */
+    function getUsedAudiences(articles = State.allArticles) {
+      return [...new Set(articles.map(a => getAudience(a)))];
+    }
+
+    /**
+     * syncFilterConfigFromMeta(meta)
+     * 將 JSON _meta.topic_clusters / audience_list 正規化後寫入 State，
+     * 並補上資料中存在但 _meta 未列出的值，避免篩選 UI 與資料脫鉤。
+     */
+    function syncFilterConfigFromMeta(meta = {}) {
+      const metaClusters  = normalizeStringList(meta.topic_clusters || []);
+      const usedClusters  = getUsedClusters(State.allArticles);
+      const orderedClusters = metaClusters.filter(c => usedClusters.includes(c));
+      const extraClusters   = usedClusters.filter(c => !metaClusters.includes(c));
+      State.clusterOrder = [...orderedClusters, ...extraClusters];
+
+      if (State.clusterOrder.length === 0) {
+        State.clusterOrder = usedClusters;
+      }
+
+      const metaAudiences = normalizeStringList(meta.audience_list || []);
+      const usedAudiences = getUsedAudiences(State.allArticles);
+
+      // audience 保留 _meta 定義的 UI 順序，同時補上資料中存在但未列入 _meta 的值
+      State.audienceList = metaAudiences.length > 0 ? [...metaAudiences] : [...usedAudiences];
+      usedAudiences.forEach(aud => {
+        if (!State.audienceList.includes(aud)) {
+          State.audienceList.push(aud);
+        }
+      });
+
+      if (State.activeCluster !== '全部' && !State.clusterOrder.includes(State.activeCluster)) {
+        State.activeCluster = '全部';
+      }
+      if (State.activeAudience !== '全部' && !State.audienceList.includes(State.activeAudience)) {
+        State.activeAudience = '全部';
+      }
+    }
+
+    /* ────────────────────────────────────────────────
        showState()
-       ───────────────────────────────────────────── */
+       ──────────────────────────────────────────────── */
     function showState(which) {
       setHidden(DOM.stateLoading, which !== 'loading');
       setHidden(DOM.stateError,   which !== 'error');
@@ -1176,23 +942,20 @@
       setHidden(DOM.articlesGrid, which !== 'grid');
     }
 
-    /* ─────────────────────────────────────────────
-       loadData()
-       以 fetch() 載入外部 JSON，初始化 State
-       ───────────────────────────────────────────── */
+    /* ────────────────────────────────────────────────
+       loadData() — fetch JSON，初始化 State
+       ──────────────────────────────────────────────── */
     async function loadData() {
       showState('loading');
       try {
         const res = await fetch(CONFIG.DATA_URL, { cache: 'no-cache' });
         if (!res.ok) throw new Error(`HTTP ${res.status}：${res.statusText}`);
+
         const json = await res.json();
         if (!json || !Array.isArray(json.articles)) {
           throw new Error('JSON 格式錯誤：找不到 articles 陣列');
         }
-        /*
-         * 排序：featured=true 優先 → postDate 新到舊
-         * 過濾：僅取 display=true
-         */
+
         State.allArticles = json.articles
           .filter(a => a.display === true)
           .sort((a, b) => {
@@ -1200,7 +963,10 @@
             if (!a.featured && b.featured) return 1;
             return (b.postDate || '').localeCompare(a.postDate || '');
           });
-        buildFilters();
+
+        syncFilterConfigFromMeta(json._meta || {});
+        buildClusterFilters();
+        buildAudienceFilters();
         applyFilters();
       } catch (err) {
         console.error('[NYCU Lib] 載入失敗：', err);
@@ -1209,69 +975,95 @@
       }
     }
 
-    /* ─────────────────────────────────────────────
-       buildFilters()
-       動態生成分類篩選按鈕（依 CONFIG.CLUSTER_ORDER 排序）
-       ───────────────────────────────────────────── */
-    function buildFilters() {
-      DOM.filterRow.querySelectorAll('.filter-btn').forEach(b => b.remove());
+    /* ────────────────────────────────────────────────
+       buildClusterFilters()
+       依 JSON _meta.topic_clusters 的順序建立「分類」篩選按鈕，
+       但仍只顯示資料中實際存在的分類，避免 UI 出現無效分類。
+       ──────────────────────────────────────────────── */
+    function buildClusterFilters() {
+      DOM.filterRowCluster.querySelectorAll('.filter-btn').forEach(b => b.remove());
 
-      const usedClusters = CONFIG.CLUSTER_ORDER.filter(c =>
-        State.allArticles.some(a => a.topicCluster === c)
-      );
-
-      ['全部', ...usedClusters].forEach(cluster => {
+      ['全部', ...State.clusterOrder].forEach(cluster => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn';
         btn.textContent = cluster;
         btn.dataset.cluster = cluster;
-        btn.setAttribute('aria-pressed', cluster === '全部' ? 'true' : 'false');
+        btn.setAttribute('aria-pressed', cluster === State.activeCluster ? 'true' : 'false');
         btn.addEventListener('click', () => {
           State.activeCluster = cluster;
           applyFilters();
         });
-        DOM.filterRow.appendChild(btn);
+        DOM.filterRowCluster.appendChild(btn);
       });
     }
 
-    /* ─────────────────────────────────────────────
-       applyFilters()
-       套用「分類篩選 × 關鍵字搜尋」，更新卡片列表。
-       篩選結果存入 State.filteredArticles，
-       列印功能直接讀取此陣列，確保輸出與畫面一致。
+    /* ────────────────────────────────────────────────
+       buildAudienceFilters()
+       依 JSON _meta.audience_list 生成「對象」篩選按鈕（青色），
+       並補上資料中存在但 _meta 未列出的值，避免文章成為孤島資料。
+       ──────────────────────────────────────────────── */
+    function buildAudienceFilters() {
+      DOM.filterRowAud.querySelectorAll('.audience-btn').forEach(b => b.remove());
 
-       【擴充點】
-       未來若需加入日期範圍、audience 篩選，
-       在此函式增加 .filter() 條件即可。
-       ───────────────────────────────────────────── */
+      ['全部', ...State.audienceList].forEach(aud => {
+        const btn = document.createElement('button');
+        btn.className = 'audience-btn';
+        btn.textContent = aud;
+        btn.dataset.audience = aud;
+        btn.setAttribute('aria-pressed', aud === State.activeAudience ? 'true' : 'false');
+        btn.addEventListener('click', () => {
+          State.activeAudience = aud;
+          applyFilters();
+        });
+        DOM.filterRowAud.appendChild(btn);
+      });
+    }
+
+    /* ────────────────────────────────────────────────
+       applyFilters() — ★ 三重篩選核心
+
+       篩選順序：
+         1. 分類篩選：article 的 getClusters() 陣列中包含 activeCluster
+         2. 對象篩選：article.audience === activeAudience
+         3. 關鍵字搜尋：比對 title / shortSummary / tags
+
+       所有條件同時作用（AND 關係），結果存入 State.filteredArticles。
+       列印功能直接讀取此陣列，確保輸出與畫面一致。
+       ──────────────────────────────────────────────── */
     function applyFilters() {
       const cluster = State.activeCluster;
+      const audience = State.activeAudience;
       const kw = State.searchKeyword.trim().toLowerCase();
 
-      // 更新按鈕視覺狀態
-      DOM.filterRow.querySelectorAll('.filter-btn').forEach(btn => {
-        btn.setAttribute('aria-pressed',
-          btn.dataset.cluster === cluster ? 'true' : 'false');
+      DOM.filterRowCluster.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.setAttribute('aria-pressed', btn.dataset.cluster === cluster ? 'true' : 'false');
+      });
+      DOM.filterRowAud.querySelectorAll('.audience-btn').forEach(btn => {
+        btn.setAttribute('aria-pressed', btn.dataset.audience === audience ? 'true' : 'false');
       });
 
-      // 步驟 1：分類篩選
-      let result = cluster === '全部'
-        ? [...State.allArticles]
-        : State.allArticles.filter(a => a.topicCluster === cluster);
+      let result = [...State.allArticles];
 
-      // 步驟 2：關鍵字搜尋（比對 title / shortSummary / tags）
+      if (cluster !== '全部') {
+        result = result.filter(a => getClusters(a).includes(cluster));
+      }
+
+      if (audience !== '全部') {
+        result = result.filter(a => getAudience(a) === audience);
+      }
+
       if (kw) {
-        result = result.filter(a =>
-          (a.title || '').toLowerCase().includes(kw) ||
-          (a.shortSummary || '').toLowerCase().includes(kw) ||
-          (a.tags || []).some(t => t.toLowerCase().includes(kw))
-        );
+        result = result.filter(a => {
+          const tags = getTags(a);
+          return (a.title || '').toLowerCase().includes(kw) ||
+            (a.shortSummary || '').toLowerCase().includes(kw) ||
+            (a.longSummary || '').toLowerCase().includes(kw) ||
+            tags.some(t => t.toLowerCase().includes(kw));
+        });
       }
 
       State.filteredArticles = result;
-
-      // 更新計數
-      DOM.countBadge.innerHTML = `共 <strong>${result.length}</strong> 篇`;
+      updateCountBadge(result.length, cluster, audience, kw);
 
       if (result.length === 0) {
         showState('empty');
@@ -1281,10 +1073,22 @@
       }
     }
 
-    /* ─────────────────────────────────────────────
+    /**
+     * updateCountBadge()
+     * 在計數旁顯示當前有幾個篩選條件作用中
+     */
+    function updateCountBadge(count, cluster, audience, kw) {
+      const activeCount = (cluster !== '全部' ? 1 : 0) + (audience !== '全部' ? 1 : 0) + (kw ? 1 : 0);
+      let html = `共 <strong>${count}</strong> 篇`;
+      if (activeCount > 0) {
+        html += ` <span class="filter-active-hint">（已篩選 ${activeCount} 項條件）</span>`;
+      }
+      DOM.countBadge.innerHTML = html;
+    }
+
+    /* ────────────────────────────────────────────────
        renderGrid(articles)
-       以 DocumentFragment 批次渲染卡片（減少 reflow）
-       ───────────────────────────────────────────── */
+       ──────────────────────────────────────────────── */
     function renderGrid(articles) {
       const frag = document.createDocumentFragment();
       articles.forEach((a, i) => frag.appendChild(createCard(a, i)));
@@ -1292,22 +1096,33 @@
       DOM.articlesGrid.appendChild(frag);
     }
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        createCard(article, index)
-       建立單張文章卡片 DOM 元素
-       ───────────────────────────────────────────── */
+
+       ★ v3.0 變更：
+         · 移除圖片上的 .badge-cluster（多分類時難以呈現）
+         · 在 .card-body 加入 .card-clusters-wrap（多個分類 hashtag chips）
+         · 在 .card-body 加入 .card-audience-chip（對象標籤，青色）
+       ──────────────────────────────────────────────── */
     function createCard(article, idx) {
-      const imgSrc  = article.imageUrl || CONFIG.FALLBACK_IMG;
-      const cluster = article.topicCluster || '其他';
+      const imgSrc   = article.imageUrl || CONFIG.FALLBACK_IMG;
+      const clusters = getClusters(article);
+      const audience = getAudience(article);
 
       const el = document.createElement('article');
       el.className = 'card';
       el.setAttribute('role', 'listitem');
       el.setAttribute('tabindex', '0');
-      el.setAttribute('aria-label', `文章：${esc(article.title)}`);
-      el.style.setProperty('--delay', `${idx * 52}ms`);
+      el.setAttribute('aria-label', `文章：${article.title || ''}`);
+      el.style.setProperty('--delay', `${idx * 50}ms`);
+
+      // 多分類 chips HTML
+      const clusterChipsHTML = clusters
+        .map(c => `<span class="card-cluster-chip">${esc(c)}</span>`)
+        .join('');
 
       el.innerHTML = `
+        <!-- 封面圖（16:9，僅保留精選徽章） -->
         <div class="card-img-wrap">
           <img class="card-img"
             src="${esc(imgSrc)}"
@@ -1317,13 +1132,24 @@
           />
           ${article.featured
             ? `<span class="badge-featured" aria-label="精選文章">★ 精選</span>` : ''}
-          <span class="badge-cluster" aria-label="分類：${esc(cluster)}">${esc(cluster)}</span>
         </div>
+
+        <!-- 卡片文字 -->
         <div class="card-body">
           <time class="card-date" datetime="${esc(article.postDate)}">${esc(fmtDate(article.postDate))}</time>
+
+          <!-- ★ 多分類 hashtag chips -->
+          <div class="card-clusters-wrap" aria-label="主題分類">
+            ${clusterChipsHTML}
+          </div>
+
           <h2 class="card-title">${esc(article.title)}</h2>
           <p class="card-summary">${esc(article.shortSummary)}</p>
+
+          <!-- ★ 對象標籤 -->
+          <span class="card-audience-chip" aria-label="適合對象：${esc(audience)}">${esc(audience)}</span>
         </div>
+
         <div class="card-footer">
           <span class="card-cta" aria-hidden="true">查看詳細資訊 <span>→</span></span>
         </div>
@@ -1336,34 +1162,72 @@
       return el;
     }
 
-    /* ─────────────────────────────────────────────
-       openModal(article) / closeModal()
-       ───────────────────────────────────────────── */
+    /* ────────────────────────────────────────────────
+       openModal(article)
+
+       ★ v3.0 變更：
+         · modal-meta 區域統一由 JS 動態填充所有 chips
+         · 支援多個 .modal-cluster-chip
+         · 加入 .modal-audience-chip
+       ──────────────────────────────────────────────── */
     function openModal(article) {
-      const imgSrc = article.imageUrl || CONFIG.FALLBACK_IMG;
+      const imgSrc   = article.imageUrl || CONFIG.FALLBACK_IMG;
+      const clusters = getClusters(article);
+      const audience = getAudience(article);
+
       DOM.modalImg.src = imgSrc;
       DOM.modalImg.alt = `${article.title || ''} 封面圖`;
-      DOM.modalDate.textContent = fmtDate(article.postDate);
-      DOM.modalDate.setAttribute('datetime', article.postDate || '');
-      setHidden(DOM.modalFeat, !article.featured);
-      DOM.modalCluster.textContent = article.topicCluster || '其他';
       DOM.modalTitle.textContent = article.title || '';
       DOM.modalSummary.textContent = article.longSummary || article.shortSummary || '';
-      if (article.audience) {
-        DOM.modalAudience.innerHTML = `📌 適合對象：<strong>${esc(article.audience)}</strong>`;
-        setHidden(DOM.modalAudience, false);
-      } else {
-        setHidden(DOM.modalAudience, true);
+      DOM.modalLink.href = article.url || '#';
+
+      // ── 動態填充 meta 列 ──
+      const metaFrag = document.createDocumentFragment();
+
+      // 日期
+      const dateEl = document.createElement('time');
+      dateEl.className = 'modal-date';
+      dateEl.textContent = fmtDate(article.postDate);
+      dateEl.setAttribute('datetime', article.postDate || '');
+      metaFrag.appendChild(dateEl);
+
+      // 精選標籤
+      if (article.featured) {
+        const featEl = document.createElement('span');
+        featEl.className = 'modal-feat-badge';
+        featEl.textContent = '★ 精選文章';
+        metaFrag.appendChild(featEl);
       }
+
+      // ★ 多分類 chips
+      clusters.forEach(c => {
+        const chip = document.createElement('span');
+        chip.className = 'modal-cluster-chip';
+        chip.textContent = c;
+        metaFrag.appendChild(chip);
+      });
+
+      // ★ 對象 chip（青色）
+      if (audience) {
+        const audChip = document.createElement('span');
+        audChip.className = 'modal-audience-chip';
+        audChip.textContent = `👤 ${audience}`;
+        metaFrag.appendChild(audChip);
+      }
+
+      DOM.modalMeta.innerHTML = '';
+      DOM.modalMeta.appendChild(metaFrag);
+
+      // ── Tags ──
       DOM.modalTags.innerHTML = '';
-      (article.tags || []).forEach(tag => {
+      getTags(article).forEach(tag => {
         const span = document.createElement('span');
         span.className = 'tag';
         span.textContent = `# ${tag}`;
         DOM.modalTags.appendChild(span);
       });
-      DOM.modalLink.href = article.url || '#';
 
+      // ── 開啟 Modal ──
       DOM.modalOverlay.classList.add('is-open');
       DOM.modalOverlay.setAttribute('aria-hidden', 'false');
       document.body.classList.add('no-scroll');
@@ -1371,71 +1235,63 @@
       requestAnimationFrame(() => DOM.btnClose.focus());
     }
 
+    /* ────────────────────────────────────────────────
+       closeModal()
+       ──────────────────────────────────────────────── */
     function closeModal() {
       DOM.modalOverlay.classList.remove('is-open');
       DOM.modalOverlay.setAttribute('aria-hidden', 'true');
       document.body.classList.remove('no-scroll');
     }
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        buildPrint()
-       依「當前篩選結果（State.filteredArticles）」
-       動態建立列印用 DOM，確保列印內容與畫面篩選一致。
+       依 State.filteredArticles（三重篩選後）建立列印 DOM
 
-       ★ PDF 連結保留邏輯：
-         · 每張列印卡片使用 <a href="..."> 標記文章 URL
-         · 瀏覽器「儲存為 PDF」時，多數現代瀏覽器
-           （Chrome、Edge、Firefox）會保留 <a href> 的超連結，
-           讓 PDF 閱讀器中的 URL 文字可以點擊跳轉。
-         · 同時也顯示 URL 文字，方便紙本列印後手動輸入。
-       ───────────────────────────────────────────── */
+       ★ v3.0 變更：
+         · 列印頁首說明包含分類 + 對象 + 搜尋關鍵字
+         · 列印卡片顯示所有 topicCluster chips + audience chip
+       ──────────────────────────────────────────────── */
     function buildPrint() {
       const articles = State.filteredArticles;
       const now = new Date();
       const dateStr = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()}`;
       const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
-      // ── 填充列印頁首資訊 ──
-      const cluster = State.activeCluster;
+      // ── 篩選狀態說明 ──
+      const parts = [];
+      if (State.activeCluster !== '全部') parts.push(`分類：${State.activeCluster}`);
+      if (State.activeAudience !== '全部') parts.push(`對象：${State.activeAudience}`);
       const kw = State.searchKeyword.trim();
-      let filterDesc = '顯示範圍：全部文章';
-      if (cluster !== '全部' || kw) {
-        const parts = [];
-        if (cluster !== '全部') parts.push(`分類：${cluster}`);
-        if (kw) parts.push(`搜尋關鍵字：「${kw}」`);
-        filterDesc = `已套用篩選 — ${parts.join('｜')}（共 ${articles.length} 篇）`;
-      } else {
-        filterDesc = `全部文章，共 ${articles.length} 篇`;
-      }
-      DOM.printFilterDesc.textContent = filterDesc;
-      DOM.printDateMeta.innerHTML =
-        `列印日期：${dateStr} ${timeStr}<br />` +
-        `來源：news.lib.nycu.edu.tw`;
+      if (kw) parts.push(`搜尋：「${kw}」`);
+      DOM.printFilterDesc.textContent = parts.length > 0
+        ? `篩選條件：${parts.join('｜')}（共 ${articles.length} 篇）`
+        : `顯示全部文章，共 ${articles.length} 篇`;
+      DOM.printDateMeta.innerHTML = `列印日期：${dateStr} ${timeStr}<br />來源：news.lib.nycu.edu.tw`;
 
-      // ── 建立列印卡片 ──
+      // ── 列印卡片 ──
       const frag = document.createDocumentFragment();
       articles.forEach(article => {
         const card = document.createElement('div');
         card.className = 'print-card';
 
         const imgSrc = article.imageUrl || CONFIG.FALLBACK_IMG;
-        const cluster = article.topicCluster || '其他';
+        const clusters = getClusters(article);
+        const audience = getAudience(article);
         const url = article.url || '#';
 
-        // 用 innerHTML 構建列印卡片
-        // 注意：列印樣式下 <a href> 可保留 PDF 超連結
+        const clusterSpans = clusters
+          .map(c => `<span class="print-cluster">${esc(c)}</span>`)
+          .join('');
+
         card.innerHTML = `
           <div class="print-card-topbar"></div>
-          <img class="print-card-img"
-            src="${esc(imgSrc)}"
-            alt="${esc(article.title)} 封面圖"
-            onerror="this.style.display='none'"
-          />
+          <img class="print-card-img" src="${esc(imgSrc)}" alt="${esc(article.title)}" onerror="this.style.display='none'" />
           <div class="print-card-body">
             <div class="print-card-meta">
-              <span class="print-cluster">${esc(cluster)}</span>
-              ${article.featured
-                ? `<span class="print-featured">★ 精選</span>` : ''}
+              ${clusterSpans}
+              <span class="print-audience">${esc(audience)}</span>
+              ${article.featured ? `<span class="print-featured">★ 精選</span>` : ''}
             </div>
             <div class="print-card-title">${esc(article.title)}</div>
             <div class="print-card-date">${esc(fmtDate(article.postDate))}</div>
@@ -1450,31 +1306,33 @@
       DOM.printGrid.appendChild(frag);
     }
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        triggerPrint()
-       建立列印內容後呼叫 window.print()
-
-       ★ 建議使用者操作：
-         · Chrome / Edge：「列印」→ 目的地選「儲存為 PDF」
-         · macOS Safari：「列印」→ 左下角「PDF」→「儲存為 PDF」
-         · 確保「背景圖形」選項開啟（以保留色帶和底色）
-       ───────────────────────────────────────────── */
+       ──────────────────────────────────────────────── */
     function triggerPrint() {
       if (State.filteredArticles.length === 0) {
         alert('目前沒有文章可以列印，請先確認篩選條件。');
         return;
       }
-      // 先建立列印內容，再觸發列印
       buildPrint();
-      // 稍微等待 DOM 更新（圖片載入），再開啟列印對話框
       setTimeout(() => window.print(), 180);
     }
 
-    /* ─────────────────────────────────────────────
-       事件綁定
-       ───────────────────────────────────────────── */
+    /* ────────────────────────────────────────────────
+       resetFilters() — ★ v3.0：同時重置三個條件
+       ──────────────────────────────────────────────── */
+    function resetFilters() {
+      clearTimeout(searchTimer);
+      State.activeCluster  = '全部';
+      State.activeAudience = '全部';
+      State.searchKeyword  = '';
+      DOM.searchInput.value = '';
+      applyFilters();
+    }
 
-    // Modal 開關
+    /* ────────────────────────────────────────────────
+       事件綁定
+       ──────────────────────────────────────────────── */
     DOM.btnClose.addEventListener('click', closeModal);
     DOM.modalOverlay.addEventListener('click', e => {
       if (e.target === DOM.modalOverlay) closeModal();
@@ -1483,20 +1341,10 @@
       if (e.key === 'Escape' && DOM.modalOverlay.classList.contains('is-open')) closeModal();
     });
 
-    // 重試
     DOM.btnRetry.addEventListener('click', loadData);
-
-    // 重置篩選
-    function resetFilters() {
-      State.activeCluster = '全部';
-      State.searchKeyword = '';
-      DOM.searchInput.value = '';
-      applyFilters();
-    }
     DOM.btnReset.addEventListener('click', resetFilters);
     DOM.btnResetEmpty.addEventListener('click', resetFilters);
 
-    // 搜尋（防抖 280ms，避免每次按鍵觸發）
     let searchTimer = null;
     DOM.searchInput.addEventListener('input', e => {
       clearTimeout(searchTimer);
@@ -1506,12 +1354,11 @@
       }, 280);
     });
 
-    // 列印 PDF 按鈕
     DOM.btnPrint.addEventListener('click', triggerPrint);
 
-    /* ─────────────────────────────────────────────
+    /* ────────────────────────────────────────────────
        ★ 應用程式啟動
-       ───────────────────────────────────────────── */
+       ──────────────────────────────────────────────── */
     loadData();
 
   </script>
